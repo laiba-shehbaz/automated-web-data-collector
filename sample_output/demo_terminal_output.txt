@@ -1,0 +1,200 @@
+OFFLINE DEMO - simulated API responses, not the real Open Library.
+Waiting times are skipped here; the real tool waits >= 1 second between requests.
+
+========================================================================
+RUN 1 - first run, with one simulated timeout (watch the automatic retry)
+========================================================================
+
+📚 Open Library Book Collector
+   Search : python programming
+   Target : up to 30 new records
+   Output : sample_output/books_sample.json
+  [WARNING] request timed out after 10s - retry 1/3 in 1s
+  [INFO] Page 1: 30 results -> 28 new, 1 duplicate, 1 invalid
+  [INFO] Page 2: 13 results -> 2 new, 0 duplicate, 0 invalid
+  [INFO] Reached the last result for this search.
+
+✓ Saved 30 new record(s) to sample_output/books_sample.json
+
+SUMMARY
++-------------------------+-------+
+| Measure                 | Value |
++-------------------------+-------+
+| API requests sent       |     3 |
+| Retries after errors    |     1 |
+| Results received        |    32 |
+| New records saved       |    30 |
+| Duplicates skipped      |     1 |
+| Invalid records skipped |     1 |
+| Total records in file   |    30 |
++-------------------------+-------+
+
+FIELD COMPLETENESS (new records)
++--------------------+--------+-------+
+| Field              | Filled | Share |
++--------------------+--------+-------+
+| title              |  30/30 |  100% |
+| authors            |  29/30 |   97% |
+| first_publish_year |  26/30 |   87% |
+| edition_count      |  30/30 |  100% |
+| languages          |  30/30 |  100% |
+| subjects           |  30/30 |  100% |
+| rating_average     |  23/30 |   77% |
+| url                |  30/30 |  100% |
+| collected_at       |  30/30 |  100% |
++--------------------+--------+-------+
+
+PREVIEW
++---+-----------------------------------+------------------------+------+----------+
+| # | Title                             | Authors                | Year | Editions |
++---+-----------------------------------+------------------------+------+----------+
+| 1 | [DEMO] Data Structures Vol. 01    | Demo Author B          | 2002 |        4 |
+| 2 | [DEMO] Web Scraping Vol. 02       | Demo Author C          | 2009 |        7 |
+| 3 | [DEMO] Machine Learning Vol. 03   | Demo Author D          | 2016 |       10 |
+| 4 | [DEMO] Flask Web Apps Vol. 04     | Demo Author E          | 2023 |       13 |
+| 5 | [DEMO] Automation Scripts Vol. 05 | Demo Author F; Co-Aut… | 2000 |       16 |
+| 6 | [DEMO] Data Analysis Vol. 07      | Demo Author H          |    - |       22 |
+| 7 | [DEMO] Algorithms Vol. 08         | Demo Author I          | 2021 |       25 |
+| 8 | [DEMO] Networking Vol. 09         | Demo Author J          | 1998 |        3 |
++---+-----------------------------------+------------------------+------+----------+
+
+========================================================================
+RUN 2 - the SAME command again (duplicates must not be saved twice)
+========================================================================
+
+📚 Open Library Book Collector
+   Search : python programming
+   Target : up to 30 new records
+   Output : sample_output/books_sample.json
+  [INFO] Loaded 30 earlier record(s) from books_sample.json
+  [INFO] Page 1: 30 results -> 0 new, 29 duplicate, 1 invalid
+  [INFO] Page 2: 13 results -> 11 new, 2 duplicate, 0 invalid
+  [INFO] Reached the last result for this search.
+
+✓ Saved 11 new record(s) to sample_output/books_sample.json
+
+SUMMARY
++-------------------------+-------+
+| Measure                 | Value |
++-------------------------+-------+
+| API requests sent       |     2 |
+| Retries after errors    |     0 |
+| Results received        |    43 |
+| New records saved       |    11 |
+| Duplicates skipped      |    31 |
+| Invalid records skipped |     1 |
+| Total records in file   |    41 |
++-------------------------+-------+
+
+FIELD COMPLETENESS (new records)
++--------------------+--------+-------+
+| Field              | Filled | Share |
++--------------------+--------+-------+
+| title              |  11/11 |  100% |
+| authors            |  11/11 |  100% |
+| first_publish_year |   9/11 |   82% |
+| edition_count      |  11/11 |  100% |
+| languages          |  11/11 |  100% |
+| subjects           |  11/11 |  100% |
+| rating_average     |   8/11 |   73% |
+| url                |  11/11 |  100% |
+| collected_at       |  11/11 |  100% |
++--------------------+--------+-------+
+
+PREVIEW
++---+------------------------------------+------------------------+------+----------+
+| # | Title                              | Authors                | Year | Editions |
++---+------------------------------------+------------------------+------+----------+
+| 1 | [DEMO] Web Scraping Vol. 32        | Demo Author I          | 2009 |       22 |
+| 2 | [DEMO] Machine Learning Vol. 33    | Demo Author J          | 2016 |       25 |
+| 3 | [DEMO] Flask Web Apps Vol. 34      | Demo Author K          | 2023 |        3 |
+| 4 | [DEMO] Automation Scripts Vol. 35  | Demo Author L; Co-Aut… |    - |        6 |
+| 5 | [DEMO] Testing with Python Vol. 36 | Demo Author A          | 2007 |        9 |
+| 6 | [DEMO] Data Analysis Vol. 37       | Demo Author B          | 2014 |       12 |
+| 7 | [DEMO] Algorithms Vol. 38          | Demo Author C          | 2021 |       15 |
+| 8 | [DEMO] Networking Vol. 39          | Demo Author D          | 1998 |       18 |
++---+------------------------------------+------------------------+------+----------+
+
+========================================================================
+RUN 3 - same search saved as CSV instead
+========================================================================
+
+📚 Open Library Book Collector
+   Search : python programming
+   Target : up to 15 new records
+   Output : sample_output/books_sample.csv
+  [INFO] Page 1: 15 results -> 13 new, 1 duplicate, 1 invalid
+  [INFO] Page 2: 15 results -> 2 new, 0 duplicate, 0 invalid
+
+✓ Saved 15 new record(s) to sample_output/books_sample.csv
+
+SUMMARY
++-------------------------+-------+
+| Measure                 | Value |
++-------------------------+-------+
+| API requests sent       |     2 |
+| Retries after errors    |     0 |
+| Results received        |    17 |
+| New records saved       |    15 |
+| Duplicates skipped      |     1 |
+| Invalid records skipped |     1 |
+| Total records in file   |    15 |
++-------------------------+-------+
+
+FIELD COMPLETENESS (new records)
++--------------------+--------+-------+
+| Field              | Filled | Share |
++--------------------+--------+-------+
+| title              |  15/15 |  100% |
+| authors            |  15/15 |  100% |
+| first_publish_year |  13/15 |   87% |
+| edition_count      |  15/15 |  100% |
+| languages          |  15/15 |  100% |
+| subjects           |  15/15 |  100% |
+| rating_average     |  11/15 |   73% |
+| url                |  15/15 |  100% |
+| collected_at       |  15/15 |  100% |
++--------------------+--------+-------+
+
+PREVIEW
++---+-----------------------------------+------------------------+------+----------+
+| # | Title                             | Authors                | Year | Editions |
++---+-----------------------------------+------------------------+------+----------+
+| 1 | [DEMO] Data Structures Vol. 01    | Demo Author B          | 2002 |        4 |
+| 2 | [DEMO] Web Scraping Vol. 02       | Demo Author C          | 2009 |        7 |
+| 3 | [DEMO] Machine Learning Vol. 03   | Demo Author D          | 2016 |       10 |
+| 4 | [DEMO] Flask Web Apps Vol. 04     | Demo Author E          | 2023 |       13 |
+| 5 | [DEMO] Automation Scripts Vol. 05 | Demo Author F; Co-Aut… | 2000 |       16 |
+| 6 | [DEMO] Data Analysis Vol. 07      | Demo Author H          |    - |       22 |
+| 7 | [DEMO] Algorithms Vol. 08         | Demo Author I          | 2021 |       25 |
+| 8 | [DEMO] Networking Vol. 09         | Demo Author J          | 1998 |        3 |
++---+-----------------------------------+------------------------+------+----------+
+
+========================================================================
+RUN 4 - internet is down (graceful failure, no crash, no file created)
+========================================================================
+
+📚 Open Library Book Collector
+   Search : python programming
+   Target : up to 10 new records
+   Output : sample_output/network_down_test.json
+  [WARNING] network connection failed - retry 1/2 in 1s
+  [WARNING] network connection failed - retry 2/2 in 2s
+  [ERROR] gave up after 3 attempts (network connection failed)
+
+SUMMARY
++-------------------------+-------+
+| Measure                 | Value |
++-------------------------+-------+
+| API requests sent       |     3 |
+| Retries after errors    |     2 |
+| Results received        |     0 |
+| New records saved       |     0 |
+| Duplicates skipped      |     0 |
+| Invalid records skipped |     0 |
+| Total records in file   |     0 |
++-------------------------+-------+
+
+! The run stopped early: gave up after 3 attempts (network connection failed)
+
+Exit code: 1   |   output file created: False

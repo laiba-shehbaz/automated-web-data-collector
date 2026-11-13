@@ -1,0 +1,16 @@
+work_key,title,authors,first_publish_year,edition_count,languages,subjects,rating_average,url,collected_at
+/works/OL1001W,[DEMO] Data Structures Vol. 01,Demo Author B,2002,4,eng|urd,Data Structures|Programming|Computer science|Demo data,3.3,https://openlibrary.org/works/OL1001W,2026-11-13T04:12:57Z
+/works/OL1002W,[DEMO] Web Scraping Vol. 02,Demo Author C,2009,7,eng|fre,Web Scraping|Programming|Computer science|Demo data,3.4,https://openlibrary.org/works/OL1002W,2026-11-13T04:12:57Z
+/works/OL1003W,[DEMO] Machine Learning Vol. 03,Demo Author D,2016,10,eng,Machine Learning|Programming|Computer science|Demo data,3.5,https://openlibrary.org/works/OL1003W,2026-11-13T04:12:57Z
+/works/OL1004W,[DEMO] Flask Web Apps Vol. 04,Demo Author E,2023,13,eng,Flask Web Apps|Programming|Computer science|Demo data,,https://openlibrary.org/works/OL1004W,2026-11-13T04:12:57Z
+/works/OL1005W,[DEMO] Automation Scripts Vol. 05,Demo Author F; Co-Author 5,2000,16,eng|urd,Automation Scripts|Programming|Computer science|Demo data,3.7,https://openlibrary.org/works/OL1005W,2026-11-13T04:12:57Z
+/works/OL1007W,[DEMO] Data Analysis Vol. 07,Demo Author H,,22,eng,Data Analysis|Programming|Computer science|Demo data,3.9,https://openlibrary.org/works/OL1007W,2026-11-13T04:12:57Z
+/works/OL1008W,[DEMO] Algorithms Vol. 08,Demo Author I,2021,25,eng,Algorithms|Programming|Computer science|Demo data,,https://openlibrary.org/works/OL1008W,2026-11-13T04:12:57Z
+/works/OL1009W,[DEMO] Networking Vol. 09,Demo Author J,1998,3,eng|urd,Networking|Programming|Computer science|Demo data,4.1,https://openlibrary.org/works/OL1009W,2026-11-13T04:12:57Z
+/works/OL1010W,[DEMO] Python Basics Vol. 10,Demo Author K; Co-Author 10,2005,6,eng|fre,Python Basics|Programming|Computer science|Demo data,4.2,https://openlibrary.org/works/OL1010W,2026-11-13T04:12:57Z
+/works/OL1011W,[DEMO] Data Structures Vol. 11,Demo Author L,2012,9,eng,Data Structures|Programming|Computer science|Demo data,4.3,https://openlibrary.org/works/OL1011W,2026-11-13T04:12:57Z
+/works/OL1012W,[DEMO] Web Scraping Vol. 12,Demo Author A,2019,12,eng,Web Scraping|Programming|Computer science|Demo data,,https://openlibrary.org/works/OL1012W,2026-11-13T04:12:57Z
+/works/OL1013W,[DEMO] Machine Learning Vol. 13,Demo Author B,1996,15,eng|urd,Machine Learning|Programming|Computer science|Demo data,4.5,https://openlibrary.org/works/OL1013W,2026-11-13T04:12:57Z
+/works/OL1014W,[DEMO] Flask Web Apps Vol. 14,Demo Author C,,18,eng|fre,Flask Web Apps|Programming|Computer science|Demo data,4.6,https://openlibrary.org/works/OL1014W,2026-11-13T04:12:57Z
+/works/OL1015W,[DEMO] Automation Scripts Vol. 15,Demo Author D; Co-Author 15,2010,21,eng,Automation Scripts|Programming|Computer science|Demo data,4.7,https://openlibrary.org/works/OL1015W,2026-11-13T04:12:57Z
+/works/OL1016W,[DEMO] Testing with Python Vol. 16,Demo Author E,2017,24,eng,Testing with Python|Programming|Computer science|Demo data,,https://openlibrary.org/works/OL1016W,2026-11-13T04:12:57Z

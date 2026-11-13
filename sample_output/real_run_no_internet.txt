@@ -1,0 +1,23 @@
+
+📚 Open Library Book Collector
+   Search : subject:"data science"
+   Target : up to 5 new records
+   Output : sample_output/real_run_test.json
+  [INFO] Tip: set your own contact with --user-agent 'AppName/1.0 (you@email.com)'. Open Library asks apps to identify themselves.
+  [WARNING] network connection failed - retry 1/1 in 1s
+  [ERROR] gave up after 2 attempts (network connection failed)
+
+SUMMARY
++-------------------------+-------+
+| Measure                 | Value |
++-------------------------+-------+
+| API requests sent       |     2 |
+| Retries after errors    |     1 |
+| Results received        |     0 |
+| New records saved       |     0 |
+| Duplicates skipped      |     0 |
+| Invalid records skipped |     0 |
+| Total records in file   |     0 |
++-------------------------+-------+
+
+! The run stopped early: gave up after 2 attempts (network connection failed)

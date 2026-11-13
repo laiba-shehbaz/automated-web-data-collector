@@ -1,0 +1,10 @@
+{
+  "query": "",
+  "subject": "data science",
+  "limit": 40,
+  "output": "data/data_science_books.csv",
+  "delay": 1.5,
+  "timeout": 10,
+  "retries": 3,
+  "user_agent": "BookCollectorStudentProject/1.0 (your-email@example.com)"
+}
