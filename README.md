@@ -11,6 +11,8 @@
   <img src="https://img.shields.io/badge/Domain%203-Task%203-f59e0b" alt="Task 3">
 </p>
 
+[![Live Demo](https://img.shields.io/badge/Live%20Demo-Open%20Preview-16a34a?style=for-the-badge&logo=githubpages&logoColor=white)](https://laiba-shehbaz.github.io/automated-web-data-collector/web_collector_run.html)
+
 <h1 align="center"><img src="assets/icon.svg" width="40" align="top"> Automated Web Data Collector</h1>
 
 <p align="center">
@@ -323,4 +325,10 @@ Task3_Web_Data_Collector/
 
 ---
 
-<p align="center">Made with Python 🐍 requests 🌐 | Domain 3 - Task 3</p>
+## 👤 Author & Assessment
+
+| | |
+|---|---|
+| **Author** | Laiba Shehbaz |
+| **Assessment** | Python Programming - Advanced Level |
+| **Domain / Task** | Domain 3 - Task 3 (Automated Web Data Collector) |
