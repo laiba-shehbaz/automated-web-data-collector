@@ -1,0 +1,82 @@
+<!DOCTYPE html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Automated Web Data Collector (Run)</title><style>
+:root{--bg:#f4f6f8;--cd:#fff;--tx:#1f2933;--mu:#5f6b7a;--bd:#dde2e8;--ac:#be123c;--a2:#7c3aed;--cb:#eef1f4;--ok:#16a34a;--wn:#b45309;--er:#c0392b;--tb:#0f1419;--tt:#d5dde5}
+@media(prefers-color-scheme:dark){:root{--bg:#0f1419;--cd:#171d24;--tx:#e6eaee;--mu:#9aa5b1;--bd:#2a323b;--ac:#fb7185;--a2:#a78bfa;--cb:#222a33;--ok:#4ade80;--wn:#fbbf24;--er:#f87171;--tb:#0a0d11}}
+*{box-sizing:border-box}body{margin:0;background:var(--bg);color:var(--tx);font:15px/1.5 system-ui,-apple-system,"Segoe UI",sans-serif}
+main{max-width:1000px;margin:0 auto;padding:16px}h1{margin:0;font-size:1.5rem}h2{margin:0 0 10px;font-size:1.1rem}.mu{color:var(--mu)}
+.card{background:var(--cd);border:1px solid var(--bd);border-radius:10px;padding:16px;margin-top:14px}
+.g{display:grid;gap:10px;grid-template-columns:repeat(auto-fit,minmax(170px,1fr))}label{font-size:.85rem;color:var(--mu);display:block}
+input,select{width:100%;padding:8px;border:1px solid var(--bd);border-radius:6px;background:var(--cb);color:var(--tx);font:inherit}
+button{padding:9px 16px;border:0;border-radius:6px;background:var(--ac);color:#fff;font:600 14px system-ui;cursor:pointer}button.s{background:var(--cb);color:var(--tx);border:1px solid var(--bd)}button:disabled{opacity:.5;cursor:wait}
+button:focus-visible,input:focus-visible,select:focus-visible{outline:2px solid var(--a2);outline-offset:2px}
+.row{display:flex;flex-wrap:wrap;gap:8px;align-items:center;margin-top:12px}.tw{overflow-x:auto}table{border-collapse:collapse;width:100%}th,td{padding:6px 10px;border-bottom:1px solid var(--bd);text-align:left;white-space:nowrap}th{background:var(--cb)}.r{text-align:right}
+#log{background:var(--tb);color:var(--tt);border-radius:8px;padding:12px;font:13px/1.55 ui-monospace,Menlo,Consolas,monospace;min-height:150px;max-height:340px;overflow:auto;white-space:pre-wrap}
+.I{color:#7dd3fc}.W{color:#fbbf24}.E{color:#f87171}.O{color:#4ade80}
+.stats{display:grid;gap:10px;grid-template-columns:repeat(auto-fit,minmax(130px,1fr));margin-top:12px}.stats div{background:var(--cb);border-radius:8px;padding:10px}.stats b{display:block;font-size:1.15rem}
+.note{border-left:4px solid var(--wn);padding:6px 12px;background:var(--cb);border-radius:0 6px 6px 0;font-size:.9rem}
+footer{margin:24px 0 8px;padding-top:14px;border-top:1px solid var(--bd);text-align:center;color:var(--mu);font-size:.9rem}footer b{color:var(--tx)}
+</style></head><body><main>
+<h1>📚 Automated Web Data Collector</h1><div class="mu">Python Programming - Advanced Level | Domain 3 - Task 3 (browser version of <code>collector.py</code>)</div>
+<section class="card"><h2>⚙️ Settings</h2>
+<div class="g"><div><label for="mode">Mode</label><select id="mode"><option value="demo">Offline demo (fake API, synthetic [DEMO] data)</option><option value="live">Live Open Library API (needs internet)</option></select></div>
+<div><label for="sc">Demo scenario</label><select id="sc"><option value="ok">Normal run</option><option value="timeout">Timeout once, then retry</option><option value="429">HTTP 429, wait Retry-After</option><option value="badjson">Invalid JSON once, then retry</option><option value="500">Server error 500 every time</option><option value="404">HTTP 404 (not retried)</option><option value="net">Internet down</option></select></div>
+<div><label for="q">Query (--query)</label><input id="q" placeholder="web scraping"></div><div><label for="sb">Subject (--subject)</label><input id="sb" placeholder="data science"></div>
+<div><label for="lim">Limit (--limit, 1-200)</label><input id="lim" type="number" value="30"></div><div><label for="dl">Delay s (--delay, min 1)</label><input id="dl" type="number" step="0.5" value="1"></div>
+<div><label for="to">Timeout s (--timeout)</label><input id="to" type="number" value="10"></div><div><label for="rt">Retries (--retries, 0-5)</label><input id="rt" type="number" value="3"></div></div>
+<div class="row"><button id="run">▶ Run collector</button><button class="s" id="rst">Reset saved file</button><button class="s" id="dj">Download .json</button><button class="s" id="dc">Download .csv</button></div>
+<p class="note" id="nt">Offline demo uses a fake API with problems built in (a duplicate, an invalid year, a missing title). Waiting times are skipped. Run it twice to see duplicate prevention.</p></section>
+<section class="card"><h2>🖥️ Terminal output</h2><div id="log" role="log" aria-live="polite">Press "Run collector".</div><div class="stats" id="stats"></div></section>
+<section class="card"><h2>🗃️ Saved file (simulated <code>data/books</code>)</h2><p class="mu" id="tot"></p><div class="tw"><table id="tb"></table></div></section>
+<footer>Made with HTML + JavaScript (browser version of the Python project)<br><b>Author:</b> Laiba Shehbaz &nbsp;|&nbsp; <b>Assessment:</b> Python Programming - Advanced Level, Domain 3 - Task 3</footer>
+</main><script>
+const MAXREC=200,MAXPAGE=50,MAXPAGES=10,FIELDS="key,title,author_name,first_publish_year,edition_count,language,subject,ratings_average";
+const TOPICS=["Python Basics","Data Structures","Web Scraping","Machine Learning","Flask Web Apps","Automation Scripts","Testing with Python","Data Analysis","Algorithms","Networking"],LANGS=[["eng"],["eng","urd"],["eng","fre"],["eng"]];
+function demoDocs(){const d=[];for(let i=1;i<=42;i++){const o={key:`/works/OL${1000+i}W`,title:`[DEMO] ${TOPICS[i%10]} Vol. ${String(i).padStart(2,"0")}`,author_name:[`Demo Author ${String.fromCharCode(65+i%12)}`].concat(i%5===0?[`Co-Author ${i}`]:[]),first_publish_year:1995+(i*7)%30,edition_count:(i*3)%25+1,language:LANGS[i%4],subject:[TOPICS[i%10],"Programming","Computer science","Demo data"],ratings_average:Math.round((3.2+((i*37)%18)/10)*100)/100};if(i%7===0)delete o.first_publish_year;if(i%4===0)delete o.ratings_average;d.push(o)}
+d[20].first_publish_year="abc";delete d[24].author_name;delete d[5].title;d.splice(12,0,{...d[3]});return d}
+class FetchError extends Error{}
+const clean=v=>v==null?"":String(v).replace(/\s+/g," ").trim();
+function asList(v){const a=Array.isArray(v)?v:[v],seen=new Set(),r=[];a.forEach(x=>{const t=clean(x);if(t&&!seen.has(t)){seen.add(t);r.push(t)}});return r}
+function toInt(v,lo,hi){if(typeof v==="boolean")return null;const n=Math.trunc(Number(v));return Number.isFinite(n)&&v!==""&&v!==null&&n>=lo&&n<=hi?n:null}
+function parseBook(doc,stamp){if(!doc||typeof doc!=="object"||Array.isArray(doc))return null;const key=clean(doc.key),title=clean(doc.title);if(!key||!title)return null;
+let rt=Number(doc.ratings_average);rt=doc.ratings_average==null||!Number.isFinite(rt)?null:Math.round(rt*100)/100;if(rt!==null&&(rt<0||rt>5))rt=null;
+return{work_key:key,title:title.slice(0,200),authors:asList(doc.author_name).slice(0,5).join("; "),first_publish_year:toInt(doc.first_publish_year,1000,new Date().getFullYear()+1),edition_count:toInt(doc.edition_count,0,100000),languages:asList(doc.language).slice(0,8).join("|"),subjects:asList(doc.subject).slice(0,5).map(t=>t.slice(0,60)).join("|"),rating_average:rt,url:"https://openlibrary.org"+(key.startsWith("/")?key:"/"+key),collected_at:stamp}}
+function buildQuery(s){const p=s.query?[s.query]:[];if(s.subject)p.push(`subject:"${s.subject}"`);return p.join(" ")}
+function validate(s){const e=[];s.limit=Math.trunc(s.limit);if(!(s.limit>=1&&s.limit<=MAXREC))e.push(`limit must be 1 to ${MAXREC}`);if(!(s.timeout>0))e.push("timeout must be above 0");if(!(s.retries>=0&&s.retries<=5))e.push("retries must be 0 to 5");if(!Number.isFinite(s.delay))e.push("delay must be a number");if(e.length)throw new FetchError("Invalid settings: "+e.join("; "));s.delay=Math.max(s.delay,1);if(!s.query&&!s.subject)s.query="python programming";return s}
+async function fetchPage(get,params,s,st,log,sleep){let reason="unknown error";for(let a=0;a<=s.retries;a++){let wait=null;st.requests++;let r;try{r=await get(params)}catch(e){if(e.kind==="timeout")reason=`request timed out after ${s.timeout}s`;else if(e.kind==="conn")reason="network connection failed";else throw new FetchError("request failed: "+e.message);r=null}
+if(r){if(r.status===200){if(r.badjson)reason="server returned invalid JSON";else{const d=r.data;if(!d||typeof d!=="object"||!Array.isArray(d.docs))throw new FetchError("response has an unexpected structure (no 'docs' list)");return d}}else if(r.status===429||(r.status>=500&&r.status<600)){reason=`server answered HTTP ${r.status}`;const ra=parseFloat(r.retryAfter);wait=Number.isFinite(ra)?Math.min(ra,30):null}else throw new FetchError(`request rejected with HTTP ${r.status}`)}
+if(a<s.retries){st.retries++;const p=wait!==null?wait:Math.min(2**a,30);log("W",`${reason} - retry ${a+1}/${s.retries} in ${p}s`);await sleep(p)}}
+throw new FetchError(`gave up after ${s.retries+1} attempts (${reason})`)}
+async function collect(s,get,known,log,sleep){const st={requests:0,retries:0,pages:0,fetched:0,invalid:0,dupE:0,dupR:0,new:0,errors:[]},recs=[],runKeys=new Set(),q=buildQuery(s),ps=Math.min(s.limit,MAXPAGE),stamp=new Date().toISOString().slice(0,19)+"Z";let off=0;
+while(recs.length<s.limit&&st.pages<MAXPAGES){if(st.pages)await sleep(s.delay);let d;try{d=await fetchPage(get,{q,limit:ps,offset:off,fields:FIELDS},s,st,log,sleep)}catch(e){if(!(e instanceof FetchError))throw e;st.errors.push(e.message);log("E",e.message);break}
+st.pages++;const docs=d.docs;if(!docs.length){log("I","No more results from the API.");break}off+=docs.length;let nw=0,du=0,bd=0;
+for(const doc of docs){st.fetched++;const b=parseBook(doc,stamp);if(!b){st.invalid++;bd++}else if(known.has(b.work_key)){st.dupE++;du++}else if(runKeys.has(b.work_key)){st.dupR++;du++}else{runKeys.add(b.work_key);recs.push(b);st.new++;nw++;if(recs.length>=s.limit)break}}
+log("I",`Page ${st.pages}: ${docs.length} results -> ${nw} new, ${du} duplicate, ${bd} invalid`);if(Number.isInteger(d.numFound)&&off>=d.numFound){log("I","Reached the last result for this search.");break}}
+return{recs,st}}
+//==UI==
+const $=i=>document.getElementById(i),KEY="collector_file_v1";let FILE=[];
+try{FILE=JSON.parse(localStorage.getItem(KEY))||[]}catch(e){FILE=[]}
+function saveFile(){try{localStorage.setItem(KEY,JSON.stringify(FILE))}catch(e){}}
+function log(t,m){const l=$("log"),s=document.createElement("div");s.className=t;s.textContent=({I:"[INFO] ",W:"[WARNING] ",E:"[ERROR] ",O:""})[t]+m;l.appendChild(s);l.scrollTop=l.scrollHeight}
+function demoGet(sc){const docs=demoDocs();let n=0;return async p=>{n++;if(sc==="net"){throw{kind:"conn"}}if(sc==="timeout"&&n===1)throw{kind:"timeout"};if(sc==="429"&&n===1)return{status:429,retryAfter:"2"};if(sc==="badjson"&&n===1)return{status:200,badjson:true};if(sc==="500")return{status:500};if(sc==="404")return{status:404};
+return{status:200,data:{numFound:docs.length,start:p.offset,docs:docs.slice(p.offset,p.offset+p.limit)}}}}
+function liveGet(s){return async p=>{const u=new URL("https://openlibrary.org/search.json");Object.entries(p).forEach(([k,v])=>u.searchParams.set(k,v));const c=new AbortController(),t=setTimeout(()=>c.abort(),s.timeout*1000);
+try{const r=await fetch(u,{signal:c.signal,headers:{Accept:"application/json"}});let d=null,bj=false;try{d=await r.json()}catch(e){bj=true}return{status:r.status,data:d,badjson:bj,retryAfter:r.headers.get("Retry-After")}}catch(e){throw{kind:e.name==="AbortError"?"timeout":"conn"}}finally{clearTimeout(t)}}}
+function table(){const c=["work_key","title","authors","first_publish_year","edition_count","rating_average"];$("tot").textContent=`${FILE.length} record(s) stored. Duplicates are checked against these keys on every run.`;
+$("tb").innerHTML=FILE.length?"<tr><th>Key</th><th>Title</th><th>Authors</th><th class=r>Year</th><th class=r>Editions</th><th class=r>Rating</th></tr>"+FILE.slice(-50).map(b=>"<tr>"+c.map((k,i)=>`<td${i>2?' class=r':''}>${b[k]==null?"":String(b[k]).replace(/[&<>]/g,x=>({"&":"&amp;","<":"&lt;",">":"&gt;"}[x]))}</td>`).join("")+"</tr>").join(""):'<tr><td class="mu">Nothing saved yet.</td></tr>'}
+$("mode").onchange=()=>{const d=$("mode").value==="demo";$("sc").disabled=!d;$("nt").textContent=d?"Offline demo uses a fake API with problems built in (a duplicate, an invalid year, a missing title). Waiting times are skipped. Run it twice to see duplicate prevention.":"Live mode calls the real Open Library API from your browser. Browsers do not allow setting a custom User-Agent, so the Python tool is the one that identifies itself. Real waits (delay and retries) are applied."};
+$("run").onclick=async()=>{const b=$("run");b.disabled=true;$("log").innerHTML="";$("stats").innerHTML="";const demo=$("mode").value==="demo";
+const s={query:$("q").value.trim(),subject:$("sb").value.trim(),limit:+$("lim").value,delay:+$("dl").value,timeout:+$("to").value,retries:+$("rt").value};
+try{validate(s)}catch(e){log("E",e.message);log("E","Exit code 2 (invalid settings)");b.disabled=false;return}
+log("O",`📚 Open Library Book Collector\n   Search : ${buildQuery(s)}\n   Target : up to ${s.limit} new records\n   Mode   : ${demo?"offline demo (simulated API)":"live API"}`);
+const sleep=ms=>new Promise(r=>setTimeout(r,demo?250:ms*1000));const get=demo?demoGet($("sc").value):liveGet(s);
+const{recs,st}=await collect(s,get,new Set(FILE.map(x=>x.work_key)),log,sleep);
+if(recs.length){FILE=FILE.concat(recs);saveFile();log("O",`✓ Saved ${recs.length} new record(s). Total in file: ${FILE.length}`)}else if(st.errors.length&&!FILE.length)log("E","Nothing collected, no file created. Exit code 1");else log("O","Nothing new to save. Exit code 0");
+if(st.errors.length&&recs.length)log("W","Partly collected: error stopped the run, records found were saved. Exit code 3");
+const m=[["API requests",st.requests],["Retries",st.retries],["Results received",st.fetched],["New saved",st.new],["Duplicates skipped",st.dupE+st.dupR],["Invalid skipped",st.invalid],["Total in file",FILE.length]];
+$("stats").innerHTML=m.map(x=>`<div>${x[0]}<b>${x[1]}</b></div>`).join("");table();b.disabled=false};
+$("rst").onclick=()=>{FILE=[];saveFile();table();$("log").textContent="Saved file cleared. Run again to start fresh."};
+function dl(n,t,m){const a=document.createElement("a");a.href=URL.createObjectURL(new Blob([t],{type:m}));a.download=n;a.click()}
+$("dj").onclick=()=>dl("books.json",JSON.stringify({query:"",collected:FILE.length,records:FILE},null,2),"application/json");
+$("dc").onclick=()=>{const c=["work_key","title","authors","first_publish_year","edition_count","languages","subjects","rating_average","url","collected_at"];dl("books.csv",[c.join(",")].concat(FILE.map(b=>c.map(k=>`"${String(b[k]==null?"":b[k]).replace(/"/g,'""')}"`).join(","))).join("\n"),"text/csv")};
+table();
+</script></body></html>
